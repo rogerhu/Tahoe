@@ -17,4 +17,24 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+	<style name="Button">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:textSize">16sp</item>
+		<item name="android:textColor">#FFFFFF</item>
+		<item name="android:gravity">center_vertical|center_horizontal</item>
+	</style>
+
+	<style name="VendorButton" parent="Button">
+		<item name="android:background">@drawable/purple_tooltip</item>
+	</style>
+
+	<style name="ClientButton" parent="Button">
+		<item name="android:background">@drawable/black_tooltip</item>
+	</style>
+
+	<style name="YouButton" parent="Button">
+		<item name="android:background">@drawable/blue_tooltip</item>
+	</style>
+
 </resources>
