@@ -1,6 +1,8 @@
 package com.lake.tahoe.activities;
 
+import android.app.ActionBar;
 import android.os.Bundle;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -23,6 +25,16 @@ public class RequestMapActivity extends GoogleLocationServiceActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_request_map);
 		tvTitle = (TextView) findViewById(R.id.tvTitle);
+
+		final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
+				R.layout.action_bar_shop,
+				null);
+
+		final ActionBar actionBar = getActionBar();
+		actionBar.setDisplayShowHomeEnabled(false);
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayShowCustomEnabled(true);
+		actionBar.setCustomView(actionBarLayout);
 	}
 
 	@Override
