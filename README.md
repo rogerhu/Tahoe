@@ -82,3 +82,7 @@ run.  It's often easy to get confused of stack traces:
   ```
 
 * Add your hash also to the Google API console (https://code.google.com/apis/console/b/1/?pli=1#project:261246281766:access)```
+
+* For Android Studio, exclude R.layout from your auto-imports:
+
+  ![image](https://f.cloud.github.com/assets/326857/1460132/01d758f6-4413-11e3-99c2-6ffb8ab52dc0.png)
