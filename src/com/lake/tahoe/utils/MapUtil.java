@@ -47,7 +47,6 @@ public class MapUtil {
 	public static MarkerOptions getSpeechBubbleMarkerOptions(LatLng coordinates, String title, IconGenerator iconGenerator, SpeechBubble.ColorType colorType) {
 		MarkerOptions markerOptions = new MarkerOptions().position(coordinates);
 		BitmapDescriptor bitmapDescriptor = SpeechBubble.generateMarkerBitmap(iconGenerator, title, colorType);
-		markerOptions.title(title);
 		markerOptions.icon(bitmapDescriptor);
 		return markerOptions;
 	}
