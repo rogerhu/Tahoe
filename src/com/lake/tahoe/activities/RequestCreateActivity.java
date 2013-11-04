@@ -1,6 +1,8 @@
 package com.lake.tahoe.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -19,6 +21,11 @@ public class RequestCreateActivity extends GoogleLocationServiceActivity impleme
 	GoogleMap map;
 	Request request;
 
+	static final int NEW_REQUEST = 0;
+	static final int USER_CANCELLED = 1;
+
+	Request request;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -26,16 +33,22 @@ public class RequestCreateActivity extends GoogleLocationServiceActivity impleme
 
 		DynamicActionBar actionBar = new DynamicActionBar(RequestCreateActivity.this, getResources().getColor(R.color.black));
 
-		actionBar.setTitle("Create a Request");
+		actionBar.setTitle(getString(R.string.create_request));
 		actionBar.setCheckMarkVisibility(View.VISIBLE, new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// String comparisons are ugly,
-				if (v.getTag().toString().equals(getString(R.string.checkMark))) {
-					createRequest();
-				}
+				createRequest();
 			}
 		});
+	}
+
+	public float getAmount(String amtText) {
+		if (amtText == null || "".equals(amtText)) {
+			return 0;
+		}
+
+		Float amount = Float.valueOf(amtText);
+		return amount;
 	}
 
 	public void createRequest() {
@@ -49,12 +62,7 @@ public class RequestCreateActivity extends GoogleLocationServiceActivity impleme
 
 		String amtText = amt.getText().toString();
 
-		if (amtText == null || "".equals(amtText)) {
-			return;
-		}
-
-		Float amount = Float.valueOf(amtText);
-
+		Float amount = getAmount(amtText);
 		if (amount > 0) {
 			request.setCents((int) (amount * 100));
 		}
@@ -63,6 +71,19 @@ public class RequestCreateActivity extends GoogleLocationServiceActivity impleme
 
 		request.setClient(client);
 		request.saveEventually();
+		Intent i = new Intent(RequestCreateActivity.this, RequestVendorWaitActivity.class);
+		startActivityForResult(i, NEW_REQUEST);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if (requestCode == NEW_REQUEST && resultCode == RESULT_OK) {
+			Log.d("debug", "Cancelling the request");
+			request.setState(Request.State.CANCELLED);
+			request.saveEventually();
+		}
 	}
 
 	protected void onGooglePlayServicesReady() {
