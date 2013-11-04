@@ -24,8 +24,6 @@ public class RequestCreateActivity extends GoogleLocationServiceActivity impleme
 	static final int NEW_REQUEST = 0;
 	static final int USER_CANCELLED = 1;
 
-	Request request;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

@@ -6,15 +6,22 @@ import android.view.View;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.maps.android.ui.IconGenerator;
 import com.lake.tahoe.R;
 import com.lake.tahoe.bundles.RequestVendorWaitBundle;
+import com.lake.tahoe.callbacks.ParseResultCallback;
+import com.lake.tahoe.models.User;
 import com.lake.tahoe.utils.ErrorUtil;
 import com.lake.tahoe.utils.HandlesErrors;
+import com.lake.tahoe.utils.MapUtil;
 import com.lake.tahoe.views.DynamicActionBar;
+import com.lake.tahoe.widgets.SpeechBubble;
+import com.parse.ParseUser;
 
 public class RequestVendorWaitActivity extends GoogleLocationServiceActivity implements HandlesErrors {
 
 	GoogleMap map;
+	IconGenerator iconGenerator;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +47,32 @@ public class RequestVendorWaitActivity extends GoogleLocationServiceActivity imp
 
 		SupportMapFragment fragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
 		map = fragment.getMap();
-	    map.setMyLocationEnabled(true);
-		map.getUiSettings().setZoomControlsEnabled(false);
-		map.getUiSettings().setMyLocationButtonEnabled(false);
+		map.setMyLocationEnabled(true);
+		MapUtil.panAndZoomToCurrentUser(map, MapUtil.DEFAULT_ZOOM_LEVEL);
+
+		iconGenerator = new IconGenerator(RequestVendorWaitActivity.this);
+
+		ParseResultCallback<ParseUser> markerFactoryCallback = new ParseResultCallback<ParseUser>() {
+
+			@Override
+			public void handleObject(ParseUser parseUser) {
+				User user = (User) parseUser;
+
+				map.addMarker(MapUtil.getSpeechBubbleMarkerOptions(user.getGoogleMapsLocation(),
+						user.getName(), iconGenerator, SpeechBubble.ColorType.BLACK));
+			}
+
+			@Override
+			public void onError(Throwable e) {
+				RequestVendorWaitActivity.this.onError(e);
+			}
+		};
+
+		User user = User.getCurrentUser();
+		user.findNearbyUsers(User.Type.VENDOR, markerFactoryCallback);
+
+		map.addMarker(MapUtil.getSpeechBubbleMarkerOptions(user.getGoogleMapsLocation(),
+				"You", iconGenerator, SpeechBubble.ColorType.PURPLE));
 	}
 
 	@Override
