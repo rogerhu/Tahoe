@@ -72,7 +72,7 @@ public class RequestOpenActivity extends GoogleLocationServiceActivity implement
 		user.findNearbyUsers(User.Type.VENDOR, markerFactoryCallback);
 
 		map.addMarker(MapUtil.getSpeechBubbleMarkerOptions(user.getGoogleMapsLocation(),
-				"You", iconGenerator, SpeechBubble.ColorType.PURPLE));
+				getResources().getString(R.string.you), iconGenerator, SpeechBubble.ColorType.PURPLE));
 	}
 
 	@Override

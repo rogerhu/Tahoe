@@ -8,4 +8,5 @@
 	<string name="anything_else">Anything else\?</string>
 	<string name="create_request">Creating a Request</string>
 	<string name="waiting_for_vendors">Waiting for Vendors</string>
+	<string name="you">You</string>
 </resources>
