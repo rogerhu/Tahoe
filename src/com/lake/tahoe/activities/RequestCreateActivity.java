@@ -8,12 +8,15 @@ import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.maps.android.ui.IconGenerator;
 import com.lake.tahoe.R;
 import com.lake.tahoe.models.Request;
 import com.lake.tahoe.models.User;
 import com.lake.tahoe.utils.ErrorUtil;
 import com.lake.tahoe.utils.HandlesErrors;
+import com.lake.tahoe.utils.MapUtil;
 import com.lake.tahoe.views.DynamicActionBar;
+import com.lake.tahoe.widgets.SpeechBubble;
 import com.parse.ParseUser;
 
 public class RequestCreateActivity extends GoogleLocationServiceActivity implements HandlesErrors {
@@ -88,9 +91,18 @@ public class RequestCreateActivity extends GoogleLocationServiceActivity impleme
 
 		SupportMapFragment fragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
 		map = fragment.getMap();
+
 	    map.setMyLocationEnabled(true);
 		map.getUiSettings().setZoomControlsEnabled(false);
 		map.getUiSettings().setMyLocationButtonEnabled(false);
+
+		User user = User.getCurrentUser();
+		MapUtil.panAndZoomToUser(map, user, MapUtil.DEFAULT_ZOOM_LEVEL);
+
+		IconGenerator iconGenerator = new IconGenerator(this);
+
+		map.addMarker(MapUtil.getSpeechBubbleMarkerOptions(user.getGoogleMapsLocation(),
+				      getResources().getString(R.string.you), iconGenerator, SpeechBubble.ColorType.PURPLE));
 	}
 
 	@Override
