@@ -50,7 +50,7 @@
 
 		<activity android:name=".activities.LoginActivity" />
 		<activity android:name=".activities.RequestCreateActivity" />
-		<activity android:name=".activities.RequestVendorWaitActivity" />
+		<activity android:name=".activities.RequestOpenActivity" />
 		<activity android:name=".activities.RequestMapActivity" />
 		<activity android:name=".activities.RequestDetailActivity" />
 		<activity android:name=".activities.RequestFulFillActivity" />

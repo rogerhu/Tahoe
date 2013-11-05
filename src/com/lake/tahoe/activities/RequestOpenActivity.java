@@ -18,7 +18,7 @@ import com.lake.tahoe.views.DynamicActionBar;
 import com.lake.tahoe.widgets.SpeechBubble;
 import com.parse.ParseUser;
 
-public class RequestVendorWaitActivity extends GoogleLocationServiceActivity implements HandlesErrors {
+public class RequestOpenActivity extends GoogleLocationServiceActivity implements HandlesErrors {
 
 	GoogleMap map;
 	IconGenerator iconGenerator;
@@ -26,9 +26,9 @@ public class RequestVendorWaitActivity extends GoogleLocationServiceActivity imp
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_request_vendor_wait);
+		setContentView(R.layout.activity_request_open);
 
-		DynamicActionBar actionBar = new DynamicActionBar(RequestVendorWaitActivity.this, getResources().getColor(R.color.black));
+		DynamicActionBar actionBar = new DynamicActionBar(RequestOpenActivity.this, getResources().getColor(R.color.black));
 
 		actionBar.setTitle(getString(R.string.waiting_for_vendors));
 		actionBar.setXMarkVisibility(View.VISIBLE, new View.OnClickListener() {
@@ -50,7 +50,7 @@ public class RequestVendorWaitActivity extends GoogleLocationServiceActivity imp
 		map.setMyLocationEnabled(true);
 		MapUtil.panAndZoomToCurrentUser(map, MapUtil.DEFAULT_ZOOM_LEVEL);
 
-		iconGenerator = new IconGenerator(RequestVendorWaitActivity.this);
+		iconGenerator = new IconGenerator(RequestOpenActivity.this);
 
 		ParseResultCallback<ParseUser> markerFactoryCallback = new ParseResultCallback<ParseUser>() {
 
@@ -64,7 +64,7 @@ public class RequestVendorWaitActivity extends GoogleLocationServiceActivity imp
 
 			@Override
 			public void onError(Throwable e) {
-				RequestVendorWaitActivity.this.onError(e);
+				RequestOpenActivity.this.onError(e);
 			}
 		};
 

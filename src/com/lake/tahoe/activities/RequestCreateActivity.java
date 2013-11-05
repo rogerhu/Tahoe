@@ -69,7 +69,7 @@ public class RequestCreateActivity extends GoogleLocationServiceActivity impleme
 
 		request.setClient(client);
 		request.saveEventually();
-		Intent i = new Intent(RequestCreateActivity.this, RequestVendorWaitActivity.class);
+		Intent i = new Intent(RequestCreateActivity.this, RequestOpenActivity.class);
 		startActivityForResult(i, NEW_REQUEST);
 	}
 
