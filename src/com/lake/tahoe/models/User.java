@@ -103,11 +103,13 @@ public class User extends ParseUser {
 	}
 
 	public void getUnfinishedRequest(ModelCallback<Request> callback) {
-		String type = getType().toString().toLowerCase();
+//		String type = getType().toString();
+
 		ParseQuery<Request> query = Request.getRequestQuery();
 		query.whereNotEqualTo("state", Request.State.FULFILLED.toString());
 		query.whereNotEqualTo("state", Request.State.CANCELLED.toString());
-		query.whereEqualTo(type, this);
+		query.whereEqualTo("client", this);
+		query.include("client");
 		query.getFirstInBackground(new ModelGetCallback<Request>(callback));
 	}
 
