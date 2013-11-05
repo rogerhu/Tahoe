@@ -9,6 +9,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.maps.android.ui.IconGenerator;
 import com.lake.tahoe.R;
 import com.lake.tahoe.bundles.RequestVendorWaitBundle;
+import com.lake.tahoe.callbacks.ModelCallback;
 import com.lake.tahoe.callbacks.ParseResultCallback;
 import com.lake.tahoe.models.User;
 import com.lake.tahoe.utils.ErrorUtil;
@@ -52,25 +53,25 @@ public class RequestOpenActivity extends GoogleLocationServiceActivity implement
 
 		iconGenerator = new IconGenerator(RequestOpenActivity.this);
 
-		ParseResultCallback<ParseUser> markerFactoryCallback = new ParseResultCallback<ParseUser>() {
+		ModelCallback<User> markerFactoryCallback = new ModelCallback<User>() {
 
 			@Override
-			public void handleObject(ParseUser parseUser) {
-				User user = (User) parseUser;
+			public void onModelFound(User user) {
+				//User user = (User) parseUser;
 
 				map.addMarker(MapUtil.getSpeechBubbleMarkerOptions(user.getGoogleMapsLocation(),
 						user.getName(), iconGenerator, SpeechBubble.ColorType.BLACK));
 			}
 
 			@Override
-			public void onError(Throwable e) {
+			public void onModelError(Throwable e) {
 				RequestOpenActivity.this.onError(e);
 			}
 		};
 
 		User user = User.getCurrentUser();
 		user.findNearbyUsers(User.Type.VENDOR, markerFactoryCallback);
-
+		
 		map.addMarker(MapUtil.getSpeechBubbleMarkerOptions(user.getGoogleMapsLocation(),
 				getResources().getString(R.string.you), iconGenerator, SpeechBubble.ColorType.PURPLE));
 	}
