@@ -29,8 +29,7 @@ import com.parse.ParseUser;
 import java.util.HashMap;
 
 public class RequestMapActivity extends GoogleLocationServiceActivity implements
-	UserUpdateChannel.HandlesUserUpdates,
-	HandlesErrors {
+	UserUpdateChannel.HandlesUserUpdates, HandlesErrors {
 	
 	GoogleMap map;
 	DynamicActionBar actionBar;
@@ -49,6 +48,16 @@ public class RequestMapActivity extends GoogleLocationServiceActivity implements
 
 		actionBar = new DynamicActionBar(this, getResources().getColor(R.color.black));
 		actionBar.setTitle(getResources().getString(R.string.select_client));
+
+		actionBar.setButtonText(User.Type.CLIENT.toString());
+		actionBar.setButtonVisibility(View.VISIBLE, new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(RequestMapActivity.this, RequestCreateActivity.class);
+				i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+				startActivity(i);
+			}
+		});
 	}
 
 	@Override

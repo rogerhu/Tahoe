@@ -7,10 +7,14 @@ import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.lake.tahoe.R;
+import com.paypal.android.sdk.T;
 
 /**
  * Created by rhu on 11/3/13.
@@ -99,13 +103,26 @@ public class DynamicActionBar {
 		this.setHandler(rightArrow, visibility, handler);
 	}
 
-	public void setHandler(ImageView image, int visibility, View.OnClickListener handler) {
+	public void setHandler(View view, int visibility, View.OnClickListener handler) {
 		if (handler != null && visibility == View.VISIBLE) {
-			image.setOnClickListener(handler);
+			view.setOnClickListener(handler);
 		}
 	}
 
-	public void setVisibility(ImageView image, int visibility) {
-		image.setVisibility(visibility);
+	public void setVisibility(View view, int visibility) {
+		view.setVisibility(visibility);
 	}
+
+	public void setButtonText(String text) {
+		CustomButton button = (CustomButton) actionBar.getCustomView().findViewById(R.id.userTypeButton);
+		button.setText(text);
+	}
+	public void setButtonVisibility(int visibility, View.OnClickListener handler) {
+
+		CustomButton button = (CustomButton) actionBar.getCustomView().findViewById(R.id.userTypeButton);
+
+		this.setVisibility(button, visibility);
+		this.setHandler(button, visibility, handler);
+	}
+
 }

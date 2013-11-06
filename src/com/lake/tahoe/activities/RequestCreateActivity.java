@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-
 import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -46,6 +45,17 @@ public class RequestCreateActivity extends GoogleLocationServiceActivity impleme
 
 			}
 		});
+
+		actionBar.setButtonText(User.Type.VENDOR.toString());
+		actionBar.setButtonVisibility(View.VISIBLE, new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(RequestCreateActivity.this, RequestMapActivity.class);
+				i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+				startActivity(i);
+			}
+		});
+
 	}
 
 	public void createRequest() {
