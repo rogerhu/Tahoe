@@ -1,7 +1,11 @@
 package com.lake.tahoe.utils;
 
+import com.parse.codec.binary.StringUtils;
+
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.Locale;
 
 /**
@@ -24,7 +28,13 @@ public class Currency {
 			return 0;
 		}
 
-		Float amount = Float.valueOf(amtText);
-		return amount;
+		amtText = amtText.replace(new DecimalFormatSymbols(Locale.US).getCurrencySymbol(), "");
+
+		NumberFormat nf = NumberFormat.getCurrencyInstance();
+		try {
+			return nf.parse(amtText).floatValue();
+		} catch (ParseException e) {
+			return 0;
+		}
 	}
 }
