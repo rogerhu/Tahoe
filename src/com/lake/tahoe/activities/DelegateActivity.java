@@ -41,15 +41,15 @@ public class DelegateActivity extends TahoeActivity implements ModelCallback<Req
 
 	@Override
 	public void onModelFound(Request request) {
-		if (request.getState().equals(Request.State.OPEN) && currentUser.getType().equals(User.Type.CLIENT))
+		if (request.getState() == Request.State.OPEN && currentUser.getType() == User.Type.CLIENT)
 			// Only clients can see this activity
 			ActivityUtil.startRequestOpenActivity(this);
-		else if (request.getState().equals(Request.State.ACTIVE))
+		else if (request.getState() == Request.State.ACTIVE)
 			ActivityUtil.startRequestActiveActivity(this, currentUser);
-		else if (request.getState().equals(Request.State.PENDING))
+		else if (request.getState() == Request.State.PENDING)
 			ActivityUtil.startRequestPendingActivity(this, currentUser);
 		else
-			showMessage(getString(R.string.invalid_state));
+			ActivityUtil.startFirstActivity(this, currentUser);
 		ActivityUtil.transitionFade(this);
 	}
 
