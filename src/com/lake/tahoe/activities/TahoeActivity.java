@@ -3,10 +3,16 @@ package com.lake.tahoe.activities;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+
 import com.lake.tahoe.R;
 import com.lake.tahoe.dialogs.BlockerDialog;
 import com.lake.tahoe.utils.ActivityUtil;
 import com.lake.tahoe.utils.HandlesErrors;
+import com.parse.ParseFacebookUtils;
+import com.parse.ParseUser;
+
 import net.simonvt.messagebar.MessageBar;
 
 public class TahoeActivity extends FragmentActivity implements HandlesErrors {
@@ -60,6 +66,18 @@ public class TahoeActivity extends FragmentActivity implements HandlesErrors {
 	public void refreshState() {
 		toggleBlocker(true);
 		ActivityUtil.startDelegateActivity(this);
+		ActivityUtil.transitionFade(this);
+	}
+
+	public boolean setUpOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+	public void logout(MenuItem item) {
+		ParseFacebookUtils.getSession().closeAndClearTokenInformation();
+		ParseUser.logOut();
+		ActivityUtil.startLoginActivity(this);
 		ActivityUtil.transitionFade(this);
 	}
 }

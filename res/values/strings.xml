@@ -24,4 +24,5 @@
 	<string name="error_format">Error: %s</string>
 	<string name="payment_complete">Payment Complete!</string>
 	<string name="invalid_state">Invalid State, Please Reload</string>
+	<string name="logout">Logout</string>
 </resources>

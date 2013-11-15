@@ -2,6 +2,7 @@ package com.lake.tahoe.activities;
 
 import android.location.Location;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -52,6 +53,12 @@ public class RequestMapActivity extends GoogleLocationServiceActivity implements
 		});
 
 		setUpActionBar();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		setUpOptionsMenu(menu);
+		return true;
 	}
 
 	public void setUpActionBar() {
