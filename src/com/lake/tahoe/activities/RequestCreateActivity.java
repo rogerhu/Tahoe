@@ -2,7 +2,12 @@ package com.lake.tahoe.activities;
 
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -12,6 +17,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.lake.tahoe.R;
 import com.lake.tahoe.models.Request;
 import com.lake.tahoe.models.User;
+import com.lake.tahoe.navigation.AbstractNavDrawerActivity;
 import com.lake.tahoe.utils.ActivityUtil;
 import com.lake.tahoe.utils.Currency;
 import com.lake.tahoe.utils.MapUtil;
@@ -23,7 +29,7 @@ import com.lake.tahoe.widgets.SpeechBubbleIconGenerator;
 import com.parse.ParsePush;
 
 
-public class RequestCreateActivity extends GoogleLocationServiceActivity {
+public class RequestCreateActivity extends AbstractNavDrawerActivity {
 
 	GoogleMap map;
 	Marker marker;
@@ -38,15 +44,16 @@ public class RequestCreateActivity extends GoogleLocationServiceActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_request_create);
-
-		actionBar = new DynamicActionBar(RequestCreateActivity.this);
+		LayoutInflater inflater = getLayoutInflater();
+		LinearLayout container = (LinearLayout) findViewById(R.id.content_frame);
+		inflater.inflate(R.layout.activity_request_create, container);
 
 		amt = (TextView) findViewById(R.id.rewardText);
 		title = (TextView) findViewById(R.id.wantText);
 		description = (TextView) findViewById(R.id.anythingElseText);
 		amt.addTextChangedListener(new CurrencyTextWatcher());
 
+		actionBar = new DynamicActionBar(RequestCreateActivity.this);
 		actionBar.setTitle(getString(R.string.create_a_request));
 
 		actionBar.setAcceptAction(new View.OnClickListener() {
@@ -55,12 +62,14 @@ public class RequestCreateActivity extends GoogleLocationServiceActivity {
 			}
 		});
 
-		actionBar.setLeftAction(R.drawable.ic_action_vendor_mode, new View.OnClickListener() {
+		getActionBar().setDisplayShowHomeEnabled(true);
+		/*actionBar.setLeftAction(R.drawable.ic_action_vendor_mode, new View.OnClickListener() {
 			@Override public void onClick(View v) {
 				convertToVendor();
 			}
-		});
+		});*/
 	}
+
 
 	private void convertToVendor() {
 		User user = User.getCurrentUser();
@@ -148,5 +157,10 @@ public class RequestCreateActivity extends GoogleLocationServiceActivity {
 	protected void onLocationTrackingFailed(Throwable t) {
 		onError(t);
 
+	}
+
+	@Override
+	protected void onNavItemSelected(int id) {
+		Log.d("debug", "here" + id);
 	}
 }
