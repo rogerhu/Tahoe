@@ -2,10 +2,7 @@ package com.lake.tahoe.activities;
 
 import android.location.Location;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,6 +15,8 @@ import com.lake.tahoe.R;
 import com.lake.tahoe.models.Request;
 import com.lake.tahoe.models.User;
 import com.lake.tahoe.navigation.AbstractNavDrawerActivity;
+import com.lake.tahoe.navigation.NavDrawerItem;
+import com.lake.tahoe.navigation.NavMenuItem;
 import com.lake.tahoe.utils.ActivityUtil;
 import com.lake.tahoe.utils.Currency;
 import com.lake.tahoe.utils.MapUtil;
@@ -39,6 +38,9 @@ public class RequestCreateActivity extends AbstractNavDrawerActivity {
 	TextView description;
 
 	DynamicActionBar actionBar;
+
+	protected final int SWITCH_MODE = 100;
+	protected final int LOGOUT = 200;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,11 +65,6 @@ public class RequestCreateActivity extends AbstractNavDrawerActivity {
 		});
 
 		getActionBar().setDisplayShowHomeEnabled(true);
-		/*actionBar.setLeftAction(R.drawable.ic_action_vendor_mode, new View.OnClickListener() {
-			@Override public void onClick(View v) {
-				convertToVendor();
-			}
-		});*/
 	}
 
 
@@ -160,7 +157,24 @@ public class RequestCreateActivity extends AbstractNavDrawerActivity {
 	}
 
 	@Override
+	protected void setNavMenuItems() {
+		navMenu = new NavDrawerItem[] {
+				NavMenuItem.create(SWITCH_MODE, getResources().getString(R.string.switch_mode), "ic_action_vendor_mode", false, this),
+				NavMenuItem.create(LOGOUT, getResources().getString(R.string.logout), "ic_launcher", false, this)
+		};
+	}
+
+	@Override
 	protected void onNavItemSelected(int id) {
-		Log.d("debug", "here" + id);
+		switch(id) {
+			case LOGOUT:
+				User.logout();
+				ActivityUtil.startLoginActivity(this);
+				ActivityUtil.transitionFade(this);
+				break;
+			case SWITCH_MODE:
+				convertToVendor();
+				break;
+		}
 	}
 }

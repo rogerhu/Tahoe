@@ -4,31 +4,26 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.lake.tahoe.R;
 import com.lake.tahoe.activities.GoogleLocationServiceActivity;
 
-import java.util.ArrayList;
-
 /* See http://www.michenux.net/android-navigation-drawer-748.html */
 
-public abstract class AbstractNavDrawerActivity extends GoogleLocationServiceActivity {
+public abstract class AbstractNavDrawerActivity extends GoogleLocationServiceActivity implements ListView.OnItemClickListener {
 
 	protected DrawerLayout mDrawerLayout;
 	protected ActionBarDrawerToggle mDrawerToggle;
 
 	private ListView mDrawerList;
+	protected NavDrawerItem[] navMenu;
 
+	protected abstract void setNavMenuItems();
 	protected abstract void onNavItemSelected( int id );
-
-	NavDrawerItem[] navMenu;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,30 +31,12 @@ public abstract class AbstractNavDrawerActivity extends GoogleLocationServiceAct
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.navigation_drawer);
 
-		navMenu = new NavDrawerItem[] {
-				NavMenuItem.create(100, getResources().getString(R.string.switch_mode), "ic_action_vendor_mode", false, this),
-				NavMenuItem.create(200, getResources().getString(R.string.logout), "ic_launcher", false, this)
-		};
-
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
+		this.setNavMenuItems();
 		mDrawerList.setAdapter(new NavDrawerAdapter(this, R.layout.navdrawer_item, navMenu));
 
-		class DrawerItemClickListener implements ListView.OnItemClickListener {
-			@Override
-			public void onItemClick(AdapterView parent, View view, int position, long id) {
-				selectItem(position);
-			}
-
-			private void selectItem(int position) {
-				// Highlight the selected item, update the title, and close the drawer
-
-				AbstractNavDrawerActivity.this.onNavItemSelected(navMenu[position].getId());
-				mDrawerList.setItemChecked(position, true);
-				mDrawerLayout.closeDrawer(mDrawerList);
-			}
-		}
-		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+		mDrawerList.setOnItemClickListener(this);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);
 
@@ -80,11 +57,6 @@ public abstract class AbstractNavDrawerActivity extends GoogleLocationServiceAct
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 
 		getActionBar().setDisplayShowHomeEnabled(true);
-		/*actionBar.setLeftAction(R.drawable.ic_action_vendor_mode, new View.OnClickListener() {
-			@Override public void onClick(View v) {
-				convertToVendor();
-			}
-		});*/
 	}
 
 	@Override
@@ -109,5 +81,14 @@ public abstract class AbstractNavDrawerActivity extends GoogleLocationServiceAct
 		super.onConfigurationChanged(newConfig);
 		// Pass any configuration change to the drawer toggls
 		mDrawerToggle.onConfigurationChanged(newConfig);
+	}
+
+	@Override
+	public void onItemClick(AdapterView parent, View view, int position, long id) {
+		// Highlight the selected item, update the title, and close the drawer
+
+		AbstractNavDrawerActivity.this.onNavItemSelected(navMenu[position].getId());
+		mDrawerList.setItemChecked(position, true);
+		mDrawerLayout.closeDrawer(mDrawerList);
 	}
 }
