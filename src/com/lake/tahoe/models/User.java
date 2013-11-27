@@ -1,11 +1,15 @@
 package com.lake.tahoe.models;
 
+import android.view.MenuItem;
+
 import com.google.android.gms.maps.model.LatLng;
 import com.lake.tahoe.callbacks.ModelCallback;
 import com.lake.tahoe.callbacks.ModelFindCallback;
 import com.lake.tahoe.callbacks.ModelGetCallback;
+import com.lake.tahoe.utils.ActivityUtil;
 import com.lake.tahoe.utils.PushUtil;
 import com.parse.ParseClassName;
+import com.parse.ParseFacebookUtils;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -127,5 +131,10 @@ public class User extends ParseUser {
 
 	public double calculateDistance(User user) {
 		return getLocation().distanceInMilesTo(user.getLocation());
+	}
+
+	public static void logout() {
+		ParseFacebookUtils.getSession().closeAndClearTokenInformation();
+		ParseUser.logOut();
 	}
 }
