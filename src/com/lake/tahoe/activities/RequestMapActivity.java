@@ -63,7 +63,7 @@ public class RequestMapActivity extends AbstractNavDrawerActivity implements
 		actionBar.setTitle(getResources().getString(R.string.select_client));
 		actionBar.setBackgroundColor(getResources().getColor(R.color.black));
 		actionBar.toggleRightAction(View.INVISIBLE);
-		getActionBar().setDisplayShowHomeEnabled(true);
+		this.showDrawer();
 	}
 
 	private void convertToClient() {
@@ -215,8 +215,8 @@ public class RequestMapActivity extends AbstractNavDrawerActivity implements
 					);
 				}
 			});
-			actionBar.toggleLeftAction(View.INVISIBLE);
 			actionBar.toggleRightAction(View.VISIBLE);
+			RequestMapActivity.this.hideDrawer();
 			return true;
 		}
 	}

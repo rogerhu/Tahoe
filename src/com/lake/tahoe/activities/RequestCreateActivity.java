@@ -64,7 +64,7 @@ public class RequestCreateActivity extends AbstractNavDrawerActivity {
 			}
 		});
 
-		getActionBar().setDisplayShowHomeEnabled(true);
+		this.showDrawer();
 	}
 
 

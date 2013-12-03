@@ -1,5 +1,6 @@
 package com.lake.tahoe.navigation;
 
+import android.app.ActionBar;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -25,20 +26,35 @@ public abstract class AbstractNavDrawerActivity extends GoogleLocationServiceAct
 	protected abstract void setNavMenuItems();
 	protected abstract void onNavItemSelected( int id );
 
+	protected void hideDrawer() {
+		ActionBar navBar = getActionBar();
+		if (navBar != null) {
+			navBar.setDisplayHomeAsUpEnabled(false);
+			navBar.setHomeButtonEnabled(false);
+			navBar.setDisplayShowHomeEnabled(false);
+		}
+	}
+
+	protected void showDrawer() {
+		ActionBar navBar = getActionBar();
+		if (navBar != null) {
+			navBar.setDisplayHomeAsUpEnabled(true);
+			navBar.setHomeButtonEnabled(true);
+			navBar.setDisplayShowHomeEnabled(true);
+		}
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.navigation_drawer);
-
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
 		this.setNavMenuItems();
 		mDrawerList.setAdapter(new NavDrawerAdapter(this, R.layout.navdrawer_item, navMenu));
 
 		mDrawerList.setOnItemClickListener(this);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setHomeButtonEnabled(true);
 
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
 				R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
@@ -55,8 +71,6 @@ public abstract class AbstractNavDrawerActivity extends GoogleLocationServiceAct
 		};
 
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-		getActionBar().setDisplayShowHomeEnabled(true);
 	}
 
 	@Override
