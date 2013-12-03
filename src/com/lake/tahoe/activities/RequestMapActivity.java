@@ -2,7 +2,9 @@ package com.lake.tahoe.activities;
 
 import android.location.Location;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -15,6 +17,9 @@ import com.lake.tahoe.handlers.RequestUpdateChannel;
 import com.lake.tahoe.handlers.UserUpdateChannel;
 import com.lake.tahoe.models.Request;
 import com.lake.tahoe.models.User;
+import com.lake.tahoe.navigation.AbstractNavDrawerActivity;
+import com.lake.tahoe.navigation.NavDrawerItem;
+import com.lake.tahoe.navigation.NavMenuItem;
 import com.lake.tahoe.utils.ActivityUtil;
 import com.lake.tahoe.utils.MapUtil;
 import com.lake.tahoe.utils.PushUtil;
@@ -26,7 +31,7 @@ import com.parse.ParseUser;
 
 import java.util.Hashtable;
 
-public class RequestMapActivity extends GoogleLocationServiceActivity implements
+public class RequestMapActivity extends AbstractNavDrawerActivity implements
 		RequestUpdateChannel.HandlesRequestUpdates,
 		UserUpdateChannel.HandlesUserUpdates, PushUtil.HandlesPublish, ModelCallback<Request> {
 
@@ -39,17 +44,17 @@ public class RequestMapActivity extends GoogleLocationServiceActivity implements
 	SpeechBubbleIconGenerator iconGenerator = new SpeechBubbleIconGenerator(this);
 	boolean mapReadyToPan = false;
 
+	protected final int SWITCH_MODE = 100;
+	protected final int LOGOUT = 200;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_request_map);
+		LayoutInflater inflater = getLayoutInflater();
+		LinearLayout container = (LinearLayout) findViewById(R.id.content_frame);
+		inflater.inflate(R.layout.activity_request_map, container);
 
 		actionBar = new DynamicActionBar(this);
-		actionBar.setLeftAction(R.drawable.ic_action_client_mode, new View.OnClickListener() {
-			@Override public void onClick(View v) {
-				convertToClient();
-			}
-		});
 
 		setUpActionBar();
 	}
@@ -57,8 +62,8 @@ public class RequestMapActivity extends GoogleLocationServiceActivity implements
 	public void setUpActionBar() {
 		actionBar.setTitle(getResources().getString(R.string.select_client));
 		actionBar.setBackgroundColor(getResources().getColor(R.color.black));
-		actionBar.toggleLeftAction(View.VISIBLE);
 		actionBar.toggleRightAction(View.INVISIBLE);
+		getActionBar().setDisplayShowHomeEnabled(true);
 	}
 
 	private void convertToClient() {
@@ -231,6 +236,28 @@ public class RequestMapActivity extends GoogleLocationServiceActivity implements
 	@Override
 	protected void onLocationTrackingFailed(Throwable t) {
 		onError(t);
+	}
+
+	@Override
+	protected void setNavMenuItems() {
+		navMenu = new NavDrawerItem[] {
+				NavMenuItem.create(SWITCH_MODE, getResources().getString(R.string.switch_to_client), "ic_action_client_mode", false, this),
+				NavMenuItem.create(LOGOUT, getResources().getString(R.string.logout), "ic_logout", false, this)
+		};
+	}
+
+	@Override
+	protected void onNavItemSelected(int id) {
+		switch(id) {
+			case LOGOUT:
+				User.logout();
+				ActivityUtil.startLoginActivity(this);
+				ActivityUtil.transitionFade(this);
+				break;
+			case SWITCH_MODE:
+				convertToClient();
+				break;
+		}
 	}
 
 }

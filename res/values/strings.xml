@@ -27,5 +27,6 @@
 	<string name="drawer_open">Open</string>
 	<string name="drawer_close">Close</string>
 	<string name="logout">Logout</string>
-	<string name="switch_mode">Switch mode</string>
+	<string name="switch_to_client">Switch to Client Mode</string>
+	<string name="switch_to_vendor">Switch to Vendor Mode</string>
 </resources>

@@ -159,8 +159,8 @@ public class RequestCreateActivity extends AbstractNavDrawerActivity {
 	@Override
 	protected void setNavMenuItems() {
 		navMenu = new NavDrawerItem[] {
-				NavMenuItem.create(SWITCH_MODE, getResources().getString(R.string.switch_mode), "ic_action_vendor_mode", false, this),
-				NavMenuItem.create(LOGOUT, getResources().getString(R.string.logout), "ic_launcher", false, this)
+				NavMenuItem.create(SWITCH_MODE, getResources().getString(R.string.switch_to_vendor), "ic_action_vendor_mode", false, this),
+				NavMenuItem.create(LOGOUT, getResources().getString(R.string.logout), "ic_logout", false, this)
 		};
 	}
 
