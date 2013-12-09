@@ -15,6 +15,7 @@ import com.lake.tahoe.R;
 import com.lake.tahoe.models.Request;
 import com.lake.tahoe.models.User;
 import com.lake.tahoe.navigation.AbstractNavDrawerActivity;
+import com.lake.tahoe.navigation.LogoutMenuItem;
 import com.lake.tahoe.navigation.NavDrawerItem;
 import com.lake.tahoe.navigation.NavMenuItem;
 import com.lake.tahoe.utils.ActivityUtil;
@@ -160,14 +161,14 @@ public class RequestCreateActivity extends AbstractNavDrawerActivity {
 	protected void setNavMenuItems() {
 		navMenu = new NavDrawerItem[] {
 				NavMenuItem.create(SWITCH_MODE, getResources().getString(R.string.switch_to_vendor), "ic_action_vendor_mode", false, this),
-				NavMenuItem.create(LOGOUT, getResources().getString(R.string.logout), "ic_logout", false, this)
+				LogoutMenuItem.create(this)
 		};
 	}
 
 	@Override
 	protected void onNavItemSelected(int id) {
 		switch(id) {
-			case LOGOUT:
+			case LogoutMenuItem.LOGOUT:
 				User.logout();
 				ActivityUtil.startLoginActivity(this);
 				ActivityUtil.transitionFade(this);

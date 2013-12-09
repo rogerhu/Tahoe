@@ -18,6 +18,7 @@ import com.lake.tahoe.handlers.UserUpdateChannel;
 import com.lake.tahoe.models.Request;
 import com.lake.tahoe.models.User;
 import com.lake.tahoe.navigation.AbstractNavDrawerActivity;
+import com.lake.tahoe.navigation.LogoutMenuItem;
 import com.lake.tahoe.navigation.NavDrawerItem;
 import com.lake.tahoe.navigation.NavMenuItem;
 import com.lake.tahoe.utils.ActivityUtil;
@@ -45,7 +46,6 @@ public class RequestMapActivity extends AbstractNavDrawerActivity implements
 	boolean mapReadyToPan = false;
 
 	protected final int SWITCH_MODE = 100;
-	protected final int LOGOUT = 200;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -242,14 +242,15 @@ public class RequestMapActivity extends AbstractNavDrawerActivity implements
 	protected void setNavMenuItems() {
 		navMenu = new NavDrawerItem[] {
 				NavMenuItem.create(SWITCH_MODE, getResources().getString(R.string.switch_to_client), "ic_action_client_mode", false, this),
-				NavMenuItem.create(LOGOUT, getResources().getString(R.string.logout), "ic_logout", false, this)
+				LogoutMenuItem.create(this)
 		};
+
 	}
 
 	@Override
 	protected void onNavItemSelected(int id) {
 		switch(id) {
-			case LOGOUT:
+			case LogoutMenuItem.LOGOUT:
 				User.logout();
 				ActivityUtil.startLoginActivity(this);
 				ActivityUtil.transitionFade(this);

@@ -2,6 +2,8 @@ package com.lake.tahoe.navigation;
 
 import android.content.Context;
 
+import com.lake.tahoe.R;
+
 public class NavMenuItem implements NavDrawerItem {
 
 	public static final int ITEM_TYPE = 1 ;
@@ -11,7 +13,7 @@ public class NavMenuItem implements NavDrawerItem {
 	private int icon ;
 	private boolean updateActionBarTitle ;
 
-	private NavMenuItem() {
+	public NavMenuItem() {
 	}
 
 	public static NavMenuItem create( int id, String label, String icon, boolean updateActionBarTitle, Context context ) {
@@ -65,4 +67,5 @@ public class NavMenuItem implements NavDrawerItem {
 	public void setUpdateActionBarTitle(boolean updateActionBarTitle) {
 		this.updateActionBarTitle = updateActionBarTitle;
 	}
+
 }

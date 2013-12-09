@@ -105,4 +105,5 @@ public abstract class AbstractNavDrawerActivity extends GoogleLocationServiceAct
 		mDrawerList.setItemChecked(position, true);
 		mDrawerLayout.closeDrawer(mDrawerList);
 	}
+
 }
